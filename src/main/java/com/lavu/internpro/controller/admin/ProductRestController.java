@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.lavu.internpro.dto.MessageResponse;
-import com.lavu.internpro.dto.ProductDto;
+import com.lavu.internpro.dto.ProductResponse;
 import com.lavu.internpro.dto.ProductForm;
 import com.lavu.internpro.dto.ResponseObject;
 import com.lavu.internpro.service.ProductService;
@@ -34,7 +34,7 @@ public class ProductRestController {
 	private ProductService productService;
 
 	@GetMapping
-	public ResponseObject<ProductDto> getAllPage(
+	public ResponseObject<ProductResponse> getAllPage(
 			@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
 			@RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
@@ -43,20 +43,20 @@ public class ProductRestController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ProductDto> getOne(@PathVariable(name = "id") Long id) {
-		ProductDto responseDto = productService.getProductById(id);
+	public ResponseEntity<ProductResponse> getOne(@PathVariable(name = "id") Long id) {
+		ProductResponse responseDto = productService.getProductById(id);
 		return ResponseEntity.ok(responseDto);
 	}
 
 	@PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE},produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> create(@Valid @RequestPart ProductForm dto, @RequestPart MultipartFile file) {
-		ProductDto responseDto = productService.createProduct(dto,file);
+		ProductResponse responseDto = productService.createProduct(dto,file);
 		return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("Thêm mới thành công "+responseDto.getName()));
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<ProductDto> update(@Valid @RequestPart ProductForm dto, @PathVariable(name = "id") Long id, @RequestPart MultipartFile file) {
-		ProductDto responseDto = productService.updateProduct(dto, id,file);
+	public ResponseEntity<ProductResponse> update(@Valid @RequestPart ProductForm dto, @PathVariable(name = "id") Long id, @RequestPart MultipartFile file) {
+		ProductResponse responseDto = productService.updateProduct(dto, id,file);
 		return new ResponseEntity<>(responseDto, HttpStatus.OK);
 	}
 

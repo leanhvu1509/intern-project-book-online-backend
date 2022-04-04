@@ -1,6 +1,6 @@
 package com.lavu.internpro.dto;
 
-public class LoginRequest {
+public class LoginAdminRequest {
 	private String username;
 	private String password;
 
@@ -20,13 +20,13 @@ public class LoginRequest {
 		this.password = password;
 	}
 
-	public LoginRequest(String username, String password) {
+	public LoginAdminRequest(String username, String password) {
 		super();
 		this.username = username;
 		this.password = password;
 	}
 
-	public LoginRequest() {
+	public LoginAdminRequest() {
 		super();
 	}
 

@@ -3,7 +3,7 @@ package com.lavu.internpro.dto;
 import com.lavu.internpro.entity.Category;
 import com.lavu.internpro.enums.ProductStatus;
 
-public class ProductDto extends BaseDto<String> {
+public class ProductResponse extends BaseDto<String> {
 	
 	private Long id;
 
@@ -27,7 +27,7 @@ public class ProductDto extends BaseDto<String> {
 
 	private Category category;
 
-	public ProductDto() {
+	public ProductResponse() {
 		super();
 	}
 
