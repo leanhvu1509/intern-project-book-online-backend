@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.lavu.internpro.dto.ProductDto;
+import com.lavu.internpro.dto.ProductResponse;
 import com.lavu.internpro.dto.ProductForm;
 import com.lavu.internpro.dto.ResponseObject;
 import com.lavu.internpro.entity.Category;
@@ -40,20 +40,20 @@ public class ProductServiceImpl implements ProductService {
 	private ModelMapper mapper;
 
 	@Override
-	public List<ProductDto> getAllProducts() {
-		return productRepository.findAll().stream().map(p -> mapper.map(p, ProductDto.class))
+	public List<ProductResponse> getAllProducts() {
+		return productRepository.findAll().stream().map(p -> mapper.map(p, ProductResponse.class))
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public ResponseObject<ProductDto> getAllProductsPage(int pageNo, int pageSize, String sortBy, String sortDir) {
+	public ResponseObject<ProductResponse> getAllProductsPage(int pageNo, int pageSize, String sortBy, String sortDir) {
 		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
 				: Sort.by(sortBy).descending();
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 		Page<Product> products = productRepository.findAll(pageable);
-		List<ProductDto> content = products.getContent().stream().map(p -> mapper.map(p, ProductDto.class))
+		List<ProductResponse> content = products.getContent().stream().map(p -> mapper.map(p, ProductResponse.class))
 				.collect(Collectors.toList());
-		ResponseObject<ProductDto> response = new ResponseObject<ProductDto>();
+		ResponseObject<ProductResponse> response = new ResponseObject<ProductResponse>();
 		response.setContent(content);
 		response.setPageNo(products.getNumber());
 		response.setPageSize(products.getSize());
@@ -64,15 +64,15 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ProductDto getProductById(Long id) {
+	public ProductResponse getProductById(Long id) {
 		Product found = productRepository.findById(id)
 				.orElseThrow(() -> new ResourceNoFoundException("Sách", "Id", id));
-		ProductDto responseDto = mapper.map(found, ProductDto.class);
+		ProductResponse responseDto = mapper.map(found, ProductResponse.class);
 		return responseDto;
 	}
 
 	@Override
-	public ProductDto createProduct(ProductForm dto,MultipartFile file) {
+	public ProductResponse createProduct(ProductForm dto,MultipartFile file) {
 		List<Product> found = productRepository.findByName(dto.getName().trim());
 		if (found.size() > 0) {
 			throw new AlreadyExistsException("Tên sách");
@@ -87,13 +87,13 @@ public class ProductServiceImpl implements ProductService {
 			storageService.store(file, entity.getImage());
 		}
 		Product product = productRepository.save(entity);
-		ProductDto responseDto = mapper.map(product, ProductDto.class);
+		ProductResponse responseDto = mapper.map(product, ProductResponse.class);
 
 		return responseDto;
 	}
 
 	@Override
-	public ProductDto updateProduct(ProductForm dto, Long id,MultipartFile file) {
+	public ProductResponse updateProduct(ProductForm dto, Long id,MultipartFile file) {
 		Product entity = productRepository.findById(id)
 				.orElseThrow(() -> new ResourceNoFoundException("Sách", "Id", id));
 		if (entity.getName() == dto.getName().trim()) {
@@ -117,7 +117,7 @@ public class ProductServiceImpl implements ProductService {
 			storageService.store(file, entity.getImage());
 		}
 		Product product = productRepository.save(entity);
-		ProductDto responseDto = mapper.map(product, ProductDto.class);
+		ProductResponse responseDto = mapper.map(product, ProductResponse.class);
 		return responseDto;
 	}
 

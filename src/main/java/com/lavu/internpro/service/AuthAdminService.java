@@ -1,13 +1,13 @@
 package com.lavu.internpro.service;
 
 import com.lavu.internpro.dto.JwtResponse;
-import com.lavu.internpro.dto.LoginRequest;
-import com.lavu.internpro.dto.SignUpRequest;
+import com.lavu.internpro.dto.LoginAdminRequest;
+import com.lavu.internpro.dto.UserForm;
 
 public interface AuthAdminService {
 
-	JwtResponse signinUser(LoginRequest loginRequest);
+	JwtResponse signinUser(LoginAdminRequest loginRequest);
 
-	void registerUser(SignUpRequest request);
+	void registerUser(UserForm request);
 
 }

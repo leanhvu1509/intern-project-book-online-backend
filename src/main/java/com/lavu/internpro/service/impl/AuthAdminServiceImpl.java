@@ -14,8 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lavu.internpro.dto.JwtResponse;
-import com.lavu.internpro.dto.LoginRequest;
-import com.lavu.internpro.dto.SignUpRequest;
+import com.lavu.internpro.dto.LoginAdminRequest;
+import com.lavu.internpro.dto.UserForm;
 import com.lavu.internpro.entity.Role;
 import com.lavu.internpro.entity.User;
 import com.lavu.internpro.enums.RoleType;
@@ -44,7 +44,7 @@ public class AuthAdminServiceImpl implements AuthAdminService{
 	private JwtUtils jwtUtils;
 
 	@Override
-	public void registerUser(SignUpRequest request) {
+	public void registerUser(UserForm request) {
 		if (userRepository.existsByUsername(request.getUsername())) {
 			throw new AlreadyExistsException("Username");
 		}
@@ -79,7 +79,7 @@ public class AuthAdminServiceImpl implements AuthAdminService{
 
 	
 	@Override
-	public JwtResponse signinUser(LoginRequest loginRequest) {
+	public JwtResponse signinUser(LoginAdminRequest loginRequest) {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);

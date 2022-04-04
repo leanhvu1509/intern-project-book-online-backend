@@ -2,8 +2,9 @@ package com.lavu.internpro.dto;
 
 import java.util.Set;
 
-public class SignUpRequest {
+public class UserForm extends BaseDto<String>{
 
+	
 	private String username;
 	private String email;
 	private String password;
@@ -41,7 +42,7 @@ public class SignUpRequest {
 		this.role = role;
 	}
 
-	public SignUpRequest(String username, String email, String password, Set<String> role) {
+	public UserForm(String username, String email, String password, Set<String> role) {
 		super();
 		this.username = username;
 		this.email = email;
@@ -49,7 +50,7 @@ public class SignUpRequest {
 		this.role = role;
 	}
 
-	public SignUpRequest() {
+	public UserForm() {
 		super();
 	}
 
